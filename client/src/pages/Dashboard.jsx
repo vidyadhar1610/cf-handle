@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../services/api";
 import RatingGraph from "../components/RatingGraph";
 import Heatmap from "../components/Heatmap";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
   const { handle } = useParams();
@@ -126,14 +127,58 @@ setCurrentStreak(streak);
       </div>
     );
   }
+  const getRankColor = (rank) => {
+  if (!rank) return "text-gray-400";
+
+  if (rank.includes("newbie"))
+    return "text-gray-400";
+
+  if (rank.includes("pupil"))
+    return "text-green-500";
+
+  if (rank.includes("specialist"))
+    return "text-cyan-400";
+
+  if (rank.includes("expert"))
+    return "text-blue-500";
+
+  if (rank.includes("candidate master"))
+    return "text-violet-500";
+
+  if (rank.includes("master"))
+    return "text-orange-400";
+
+  if (rank.includes("grandmaster"))
+    return "text-red-500";
+
+  return "text-white";
+};
 
   return (
     <div className="min-h-screen bg-[#1a1a2e] p-6">
       <h1 className="text-3xl text-white mb-6">
         {user.handle}
       </h1>
+      <Link
+        to="/friends"
+        className="bg-green-500 px-4 py-2 rounded-lg text-white"
+      >
+        Friends
+      </Link>
+      <Link
+        to={`/problems/${handle}`}
+        className="inline-block mb-6 bg-green-500 px-4 py-2 rounded-lg text-white"
+      >
+        Problems Analytics
+      </Link>
+      <Link
+        to={`/practice/${handle}`}
+        className="bg-purple-600 px-4 py-2 rounded-lg text-white"
+      >
+        Practice Zone
+      </Link>
 
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
+      <div className="grid md:grid-cols-5 gap-4 mb-6">
         <div className="bg-[#16213e] p-4 rounded-lg">
           <h3 className="text-gray-400">
             Current Rating
@@ -160,6 +205,15 @@ setCurrentStreak(streak);
 
   <p className="text-2xl text-white">
     {contestCount}
+  </p>
+</div>
+<div className="bg-[#16213e] p-4 rounded-lg">
+  <h3 className="text-gray-400">
+    Rank
+  </h3>
+
+  <p className="text-2xl text-white">
+    {user.rank}
   </p>
 </div>
 
